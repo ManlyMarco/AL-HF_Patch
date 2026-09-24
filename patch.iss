@@ -1,0 +1,231 @@
+﻿; Copyright (C) 2026  ManlyMarco
+; This program is free software: you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation, either version 3 of the License, or
+; (at your option) any later version.
+
+;-------------Full game name for naming patch itself and desktop icons
+#define NAME "Amanatsu Location"
+;---------------------------------------------Current HF Patch version
+#define VERSION "1.0"
+;-----------------------------------------Sideloader modpack directory
+;#define GameDir N/A
+;--Don't include any files in the build to make it go fast for testing
+;#define DEBUG
+;---Skip file verification for easier testing, COMMENT OUT FOR RELEASE
+;#define NOVERIFY
+;------------Don't include general, studio and map sideloader modpacks
+;#define LITE
+;--------------------------------------------------------Configuration
+; The main executable name without the .exe
+#define GameName "AmanatsuLocation"
+; Set to empty if the game has no steam version
+#define GameNameSteam ""
+; Set CompanyName to empty if the game has no registry keys
+#define CompanyName "ILLGAMES"
+;---------------------------------------------------------------------
+#include "HelperLib\Common.iss"
+;---------------------------------------------------------------------
+; Used for post install run links, comment out to hide
+#define WikiLink "https://wiki.anime-sharing.com/hgames/index.php?title=Amanatsu_Location"
+#define RepoLink "https://github.com/ManlyMarco/AL-HF_Patch"
+; Can be KoiDiscordLink, IsDiscordLink, or a normal link
+#define DiscordLink KoiDiscordLink
+;---------------------------------------------------------------------
+
+[Setup]
+#ifndef LITE
+AppName=HF Patch for Amanatsu Location
+OutputBaseFilename=Amanatsu Location HF Patch v{#VERSION}
+#else
+AppName=HF Patch for Amanatsu Location (Light Version)
+OutputBaseFilename=Amanatsu Location HF Patch v{#VERSION} Light Version
+#endif
+
+;lzma2/ultra64 | zip | lzma2/fast
+Compression=lzma2/ultra64
+LZMAUseSeparateProcess=yes
+;Usual settings: 208576 273
+LZMADictionarySize=208576
+LZMANumFastBytes=273
+LZMANumBlockThreads=16
+DiskSpanning=no
+DiskSliceSize=4294967295
+
+[Languages]
+Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: "jp"; MessagesFile: "compiler:Languages\Japanese.isl"
+
+[Types]
+Name: "full_en";  Description: "{cm:fullInstall}"; Languages: en;
+Name: "full";     Description: "{cm:fullInstall}";  Languages: jp;
+Name: "extra_en"; Description: "{cm:extraInstall}"; Languages: en;
+Name: "extra";    Description: "{cm:extraInstall}"; Languages: jp;
+Name: "bare";     Description: "{cm:bareInstall}"
+Name: "none";     Description: "{cm:noneInstall}"
+Name: "custom";   Description: "{cm:customInstall}"; Flags: iscustom
+
+[Components]
+Name: "Patch";      Description: "Repair common issues";     Types: full_en full extra_en extra custom bare none; Flags: fixed
+;Name: "Patch\VR";	Description: "Install/Update VR Module"; Types: extra_en extra
+;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Files]
+#ifndef DEBUG
+;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Source: "Input\_Patch\1_base\*";                   DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs solidbreak; Components: Patch;    Check: not IsSteam
+Source: "Input\_Patch\2_260918\*";                 DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;            Components: Patch;    Check: not IsSteam
+Source: "Input\_Patch\9_unhollowed-260918\*";      DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;            Components: Patch;    Check: not IsSteam
+#endif
+
+; -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; This include should be here because the patch files above can be overwritten by this include, and the Files section below overwrites some config files that this include extracts
+#include "components.iss"
+
+[Files]
+#ifndef DEBUG
+Source: "Input\BepInEx_config\*";  DestDir: "{app}";                Flags: ignoreversion recursesubdirs;                   Components: BepInEx
+;Source: "Input\BepInEx_Dev\*";    DestDir: "{app}";                Flags: ignoreversion recursesubdirs;                   Components: BepInEx\Dev
+Source: "Input\Default_configs\*"; DestDir: "{app}\BepInEx\config"; Flags: ignoreversion recursesubdirs onlyifdoesntexist; Components: BepInEx
+;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Source: "Input\_TL\*";             DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: AT\TL
+Source: "Input\Config_eng\*";      DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Languages: en
+;Source: "Input\Config_eng_st\*";      DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Languages: en; Check: IsSteam
+Source: "Input\Config_jap\*";      DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Languages: jp
+;Source: "Input\Config_jap_st\*";      DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Languages: jp; Check: IsSteam
+#endif
+
+[InstallDelete]
+; Unnecessary
+Type: files; Name: "{app}\AmanatsuLocation.exe.config" 
+Type: filesandordirs; Name: "{app}\AmanatsuLocation_Data\Managed"
+Type: filesandordirs; Name: "{app}\mono"; Components: BepInEx
+
+; Will get replaced, makes sure there are no stale files left
+Type: filesandordirs; Name: "{app}\BepInEx\AmanatsuLocation"; Components: BepInEx
+Type: filesandordirs; Name: "{app}\BepInEx\interop-AmanatsuLocation"; Components: BepInEx
+Type: files; Name: "{app}\hid.dll"; Components: BepInEx
+
+; Clean up old translations
+Type: filesandordirs; Name: "{app}\BepInEx\translation"; Components: AT\TL
+
+; Just in case. Also resets any hash caches
+;Type: filesandordirs; Name: "{app}\[UTILITY] KKManager"; Components: KKManager
+
+; Remove incompatible / broken old mods
+Type: files; Name: "{app}\BepInEx\patchers\IMGUIModule.Il2Cpp.CoreCLR.Patcher.dll"; Components: BepInEx\ConfigurationManager_Il2Cpp
+Type: files; Name: "{app}\BepInEx\plugins\ConfigurationManager.dll";                Components: BepInEx\ConfigurationManager_Il2Cpp
+Type: files; Name: "{app}\BepInEx\plugins\BepInEx.KeyboardShortcut.dll";            Components: BepInEx\ConfigurationManager_Il2Cpp
+;Type: files; Name: "{app}\lib\sardinetail.unity3d";                                 Components: Content\Fishbone\SardineTail
+
+; Clean up old modpacks
+
+; Problematic config files
+Type: files; Name: "{app}\UserData\setup.xml"; Check: not IsSteam 
+
+[Dirs]
+; Name: {app}\sardines; Components: Content\Fishbone\SardineTail
+
+[CustomMessages]
+; MsgMissingDLC1=NOTICE - You are missing the optional Night Tour expansion (2026-02-06 Paid DLC). It adds 5 new female personalities (voiced), new clothes and completely new weekend events.%n%nThis DLC is optional, the patch will work fine without it. If you want to use it, install it BEFORE running HF Patch.
+; jp.MsgMissingDLC1=注意 - 「アイコミ ナイトツアー」(2026-02-06)のオプションのアップデートが欠けています。%n%n使用したい場合は、HF Patchを実行する前にインストールしてください。
+
+IconGame=Amanatsu Location
+jp.IconGame=甘夏ろけーしょん
+
+[Tasks]
+Name: desktopicon; Description: "{cm:TaskIcon}"; Flags: unchecked
+Name: delete; Description: "{cm:TaskDelete}";
+Name: delete\Plugins; Description: "{cm:TaskDeletePlugins}";
+Name: delete\Config; Description: "{cm:TaskDeletePluginSettings}"; Flags: unchecked
+Name: delete\scripts; Description: "Delete old scripts (ScriptLoader, frida)"
+Name: delete\Listfiles; Description: "{cm:TaskDeleteLst}"; Flags: unchecked
+
+[Icons]
+Name: "{userdesktop}\{cm:IconGame}"; Filename: "{app}\AmanatsuLocation.exe"; IconFilename: "{app}\AmanatsuLocation.exe"; WorkingDir: "{app}\"; Flags: createonlyiffileexists; Tasks: desktopicon; Comment: "{cm:IconGame}"
+;Name: "{userdesktop}\{cm:IconGame} VR"; Filename: "{app}\AicomiVR\AicomiVR.exe"; IconFilename: "{app}\AicomiVR\AicomiVR.exe"; WorkingDir: "{app}\AicomiVR\"; Flags: createonlyiffileexists; Tasks: desktopicon; Comment: "{cm:IconGame}"; Components: Patch\VR
+
+[Run]
+Filename: "{app}\AmanatsuLocation.exe"; Description: "{cm:RunGame}"; Flags: postinstall runasoriginaluser nowait skipifsilent skipifdoesntexist
+;Filename: "{app}\[UTILITY] KKManager\StandaloneUpdater.exe"; Parameters: """{app}"""; Description: "{cm:StartUpdate}"; Flags: postinstall runascurrentuser unchecked nowait skipifsilent skipifdoesntexist
+#include "HelperLib\CommonRun.iss"
+
+[Registry]
+; The rest of regkeys is added in CommonRun.iss
+Root: HKCU; Subkey: "Software\ILLGAMES\AmanatsuLocation"; ValueType: string; ValueName: "PRODUCTNAME"; ValueData: "甘夏ろけーしょん"; Components: MISC\FIX
+
+[Code]
+// --------------------------------------------------------------------------------------- Helper methods
+
+// function PersonalityDlcInstalled(): Boolean;
+// begin
+//   Result := FileExists(ExpandConstant('{app}\abdata\sv_add020_00'));
+// end;
+
+function IsSteam(): Boolean;
+begin
+  // Check if the game folder is directly inside a 'steamapps' folder and assume it means it's a Steam version
+  Result := CompareText(ExtractFileName(ExtractFileDir(ExtractFileDir(ExpandConstant('{app}')))), 'steamapps') = 0;
+  //Result := FileExists(ExpandConstant('{app}\lib\adv\scene\g\100_00\0.unity3d'));
+end;
+
+// --------------------------------------------------------------------------------------- Installation Events
+
+function OnInstallLocationTest(): Boolean; // Additional validity checks (.exe checks are already passed)
+begin
+  if (not FileExists(ExpandConstant('{app}\AmanatsuLocation_Data\resources.assets')) 
+   or not FileExists(ExpandConstant('{app}\lib\adv\evcg\000_00.unity3d')) 
+   or not FileExists(ExpandConstant('{app}\lib\sd\set\2\000_00.unity3d')) 
+   or not FileExists(ExpandConstant('{app}\lib\sd\lis\000_00.unity3d'))) then
+  begin
+    // Cancel, there's file corruptions that we can't fix
+    MsgBox(ExpandConstant('{cm:MsgMissingGameFiles}'), mbCriticalError, MB_OK);
+    Result := False;
+    Exit;
+  end;
+  
+  if FileExists(ExpandConstant('{app}\DigitalCraft.exe')) then
+  begin
+    MsgBox('It looks like the Studio is installed to the same directory as the game, most likely breaking the game install. Studio should be installed outside of the this game''s folder. You will have to reinstall the game and run this patch again.', mbError, MB_OK);
+    Result := False;
+    Exit;
+  end;
+  
+  // Check for missing paid DLC
+  //if not NightTourInstalled() then
+  //  SuppressibleMsgBox(ExpandConstant('{cm:MsgMissingDLC1}'), mbInformation, MB_OK, 0);
+  
+  if IsSteam then
+    SuppressibleMsgBox('WARNING: This looks like a Steam version of the game. This patch was made before the Steam version was released so it will most likely not work correctly, and might even break your game install. Check for a new version of this patch on github, patreon or discord.', mbError, MB_OK, 0);
+
+  Result := True;
+end;
+
+procedure OnTasksPageOpen(); // Use to change which tasks are on by default
+begin
+end;
+
+procedure OnPrepKillTasks(); // Close the game if it's running
+begin
+  MassTaskKill(['AmanatsuLocation.exe', 'UnityCrashHandler64.exe']);
+end;
+
+procedure OnPrepDoCleanup(); // Remove any additional mods outside of the Bepinex folder
+begin
+  if WizardIsTaskSelected('delete\Listfiles') then
+    RemoveNonstandardListfiles(ExpandConstant('{app}'), ExpandConstant('{src}'));
+
+  if WizardIsTaskSelected('delete\scripts') then
+  begin
+    DelTree(ExpandConstant('{app}\scripts'), True, True, True);
+    DelTree(ExpandConstant('{app}\frida-scripts'), True, True, True);
+    DeleteFile(ExpandConstant('{app}\dxgi.dll'));
+    DeleteFile(ExpandConstant('{app}\d3d11.dll'));
+    DeleteFile(ExpandConstant('{app}\frida-gadget.config'));
+    DeleteFile(ExpandConstant('{app}\frida-gadget.dll'));
+  end;
+end;
+
+procedure OnInstallCompleted(); // Final installation step, use to modify files installed by the patch
+begin
+end;

@@ -13,7 +13,7 @@ Name: "AT";                                    Description: "XUnity Auto Transla
 Name: "AT\TL";                                 Description: "{cm:CompTL}"                                                                          ; Types: full_en extra_en
 ; -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Name: "UNC";                                   Description: "{cm:CompUNC}"                                                                         ; Types: full_en full extra extra_en
-Name: "UNC\YesBalls";                      Description: "AL Uncensor v0.9.0 (Basic male and female uncensor)"                                  ; Types: full_en full extra extra_en
+Name: "UNC\Uncensor";                          Description: "AL Uncensor v0.9.0 (Basic male and female uncensor)"                                  ; Types: full_en full extra extra_en
 ; -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Name: "Demosaic";                              Description: "PAdresses Female Pixel Remover v1.0.1 (Demosaic - barbie girls)"                      ; Types: full_en full extra extra_en
 ; -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ Source: "Input\_Plugins\_out\GraphicsSettingsIL2CPP\*";     DestDir: "{app}"; Fl
 Source: "Input\_Plugins\_out\HCSVS_JumpLister\*";           DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: Feature\JumpLister; Excludes: "manifest.xml"
 Source: "Input\_Plugins\_out\LoveMachine_for_Amanatsu_Location\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: Feature\LoveMachine; Excludes: "manifest.xml"
 Source: "Input\_Plugins\_out\MuteInBackgroundIL2CPP\*";     DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: Feature\MuteInBackground; Excludes: "manifest.xml"
-Source: "Input\_Plugins\_out\AL_Uncensor\*";                DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: UNC\YesBalls; Excludes: "manifest.xml"
+Source: "Input\_Plugins\_out\AL_Uncensor\*";                DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: UNC\Uncensor; Excludes: "manifest.xml"
 Source: "Input\_Plugins\_out\FPSCounter\*";                 DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: MISC\FPS; Excludes: "manifest.xml"
 Source: "Input\_Plugins\_out\RuntimeUnityEditor\*";         DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: MISC\RuntimeUnityEditor; Excludes: "manifest.xml"
 Source: "Input\_Plugins\_out\AL_CheatMenu\*";               DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: MISC\CheatMenu; Excludes: "manifest.xml"

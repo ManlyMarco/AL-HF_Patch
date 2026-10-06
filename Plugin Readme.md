@@ -75,7 +75,7 @@
 
 # PAdresses Female Pixel Remover v1.0.1
 - Short description: Demosaic - barbie girls
-- Author(s):         PAdresse
+- Author(s):         PAdresse444
 - More information:  Koikatsu Discord server
 
 # Runtime Unity Editor v6.3.2

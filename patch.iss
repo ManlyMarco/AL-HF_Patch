@@ -7,7 +7,7 @@
 ;-------------Full game name for naming patch itself and desktop icons
 #define NAME "Amanatsu Location"
 ;---------------------------------------------Current HF Patch version
-#define VERSION "1.0"
+#define VERSION "1.1"
 ;-----------------------------------------Sideloader modpack directory
 ;#define GameDir N/A
 ;--Don't include any files in the build to make it go fast for testing
@@ -74,8 +74,8 @@ Name: "Patch";      Description: "Repair common issues";     Types: full_en full
 #ifndef DEBUG
 ;-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Source: "Input\_Patch\1_base\*";                   DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs solidbreak; Components: Patch;    Check: not IsSteam
-Source: "Input\_Patch\2_260918\*";                 DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;            Components: Patch;    Check: not IsSteam
-Source: "Input\_Patch\9_unhollowed-260918\*";      DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;            Components: Patch;    Check: not IsSteam
+Source: "Input\_Patch\2_261002\*";                 DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;            Components: Patch;    Check: not IsSteam
+Source: "Input\_Patch\9_unhollowed-261002\*";      DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;            Components: Patch;    Check: not IsSteam
 #endif
 
 ; -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

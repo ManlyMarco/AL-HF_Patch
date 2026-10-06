@@ -1,3 +1,8 @@
+# AL Uncensor v0.9.0
+- Short description: Basic male and female uncensor
+- Author(s):         fusionporn
+- More information:  KK discord
+
 # AL_BepisPlugins v21.1.4.1
 - Short description: Essential plugins required by many other plugins to function
 - Author(s):         https://github.com/IllusionMods
@@ -12,6 +17,11 @@
 - Short description: Plugin framework
 - Author(s):         https://github.com/BepInEx
 - More information:  https://github.com/BepInEx/BepInEx
+
+# Cheat Menu v0.2.1
+- Short description: Trainer, press F7 to open
+- Author(s):         fusionporn
+- More information:  KK discord
 
 # Configuration Manager v19.0
 - Short description: Can change plugin settings. Press F1 to open
@@ -42,6 +52,11 @@
 - Short description: Adds useful options to the game's Jump List in taskbar right-click menu
 - Author(s):         ManlyMarco
 - More information:  https://github.com/ManlyMarco/JumpLister
+
+# KKManager v1.12.0.0
+- Short description: Manage plugins and browse character cards
+- Author(s):         https://github.com/IllusionMods
+- More information:  https://github.com/IllusionMods/KKManager
 
 # LoveMachine v4.5.0
 - Short description: Adds support for some computer-controlled sex toys
